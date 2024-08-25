@@ -93,10 +93,10 @@ def onwithdraw():
     def withdraw():
         id = identry.get()
         money = int(entrywith.get())
-        res= dataBase.wihdrawmoney(id, money)
         if not (id and money):
             messagebox.showerror("Error","Please fill all fields.")
-        elif res==0:
+        res= dataBase.wihdrawmoney(id, money)
+        if res==0:
             messagebox.showerror("Error","Record not found.")
             identry.delete(0, END)
         else:
@@ -109,10 +109,10 @@ def onwithdraw():
 
 def viewbalance():
     id = identry.get()
-    balance = dataBase.viewbalance(id)
     if not (id):
         messagebox.showerror("Error","Please enter the ID")
-    elif balance ==0:
+    balance = dataBase.viewbalance(id)
+    if balance ==0:
         messagebox.showerror("Error","Record not found.")
         identry.delete(0,END)
     else:
@@ -124,10 +124,10 @@ def viewbalance():
 
 def viwecustomer():
     id = identry.get()
-    row = dataBase.customer(id)
     if not(id):
         messagebox.showerror("Error","please enter the ID")
-    elif row ==0:
+    row = dataBase.customer(id)
+    if row ==0:
         messagebox.showerror("Error","Record not found.")
     else:
         identry.delete(0,END)
@@ -147,16 +147,56 @@ def viwecustomer():
 
 def deleteCustomer():
     id = identry.get()
-    res = dataBase.delete(id)
     if not (id):
         messagebox.showerror("Error","Please enter the ID")
-    elif res==0:
+    res = dataBase.delete(id)
+    if res==0:
         messagebox.showerror("Error","Record not found.")
     else:
         messagebox.showinfo("Suces","Customer has deleted.")
         update()
     identry.delete(0,END)
     # tree.delete(id)
+
+def dep():
+    id = identry.get()
+    money= balentry.get()
+    if not (id and money):
+        messagebox.showerror("Error", "Please enter ID and Balance ")
+    res = dataBase.depositemoney(int(id), int(money))
+    if res == 0:
+        messagebox.showerror("Error", "Record not found.")
+        identry.delete(0, END)
+        balentry.delete(0, END)
+    else:
+        messagebox.showinfo("Sucess", "Money Deposite sucess....")
+        update()
+    identry.delete(0,END)
+    nameentry.delete(0, END)
+    fnameentry.delete(0, END)
+    phoneentry.delete(0, END)
+    balentry.delete(0,END)
+
+def withd():
+    id = identry.get()
+    money = balentry.get()
+    bal = int(money)
+    if not (id and money):
+        messagebox.showerror("Error", "Please enter ID and Balance.")
+    res = dataBase.wihdrawmoney(int(id), int(money))
+    if res == 0:
+        messagebox.showerror("Error", "Record not found.")
+        identry.delete(0, END)
+    else:
+        messagebox.showinfo("Sucess", "Money has Withdrawd.")
+        update()
+    identry.delete(0, END)
+    nameentry.delete(0, END)
+    fnameentry.delete(0, END)
+    phoneentry.delete(0, END)
+    balentry.delete(0, END)
+
+
 # Making interface
 # ------------------------------------
 idlable= Label(root,text="ID",fg='white',bg=bcolor,font=font1)
@@ -188,11 +228,11 @@ balentry.place(x=130,y=190)
 openbtn= Button(root,text="Open Account",fg='white',bg=btnclr,font=font1,command=insrec)
 openbtn.place(x=40,y=250)
 # ---------------------------------
-depbtn= Button(root,text="Deposite Money",fg='white',bg=btnclr,font=font1,command=ondeposite)
-depbtn.place(x=180,y=250)
+depbtn= Button(root,text="Deposite Money",fg='white',bg=btnclr,font=font1,command=dep)
+depbtn.place(x=195,y=250)
 # -----------------------------
-withbtn=Button(root,text="Withdraw Money",fg='white',bg=btnclr,font=font1,command=onwithdraw)
-withbtn.place(x=330,y=250)
+withbtn=Button(root,text="Withdraw Money",fg='white',bg=btnclr,font=font1,command=withd)
+withbtn.place(x=360,y=250)
 # ----------------------------------------
 viewbtn= Button(root,text="View Balance",fg="white",bg=btnclr,font=font1,command=viewbalance)
 viewbtn.place(x=110,y=300)
@@ -201,11 +241,13 @@ cusbtn= Button(root,text="View Customer Details",fg='white',bg=btnclr,font=font1
 cusbtn.place(x=265,y=300)
 # --------------------------------------------
 delcus= Button(root,text="Delete Customer",fg="White",bg=btnclr,font=font1,command=deleteCustomer)
-delcus.place(x=190,y=350)
+delcus.place(x=200,y=350)
 # -----------------------------------------------
 # Exit Button
 exitbtn=Button(root,text="Exit",fg="white",bg=btnclr,font=font1,command=root.destroy)
-exitbtn.place(x=240,y=400)
+exitbtn.place(x=250,y=400)
+
+# making deposite and onwithdraw interface and entry
 
 # Table for data
 tree = ttk.Treeview(root)
