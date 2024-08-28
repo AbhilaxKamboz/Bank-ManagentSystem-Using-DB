@@ -170,7 +170,7 @@ def dep():
         balentry.delete(0, END)
     else:
         messagebox.showinfo("Sucess", "Money Deposite sucess....")
-        update()
+    update()
     identry.delete(0,END)
     nameentry.delete(0, END)
     fnameentry.delete(0, END)
@@ -184,12 +184,15 @@ def withd():
     if not (id and money):
         messagebox.showerror("Error", "Please enter ID and Balance.")
     res = dataBase.wihdrawmoney(int(id), int(money))
+    userbal = res[0][0]
     if res == 0:
         messagebox.showerror("Error", "Record not found.")
         identry.delete(0, END)
+    elif bal>userbal:
+        messagebox.showerror("Error","Insufficient balance.")
     else:
         messagebox.showinfo("Sucess", "Money has Withdrawd.")
-        update()
+    update()
     identry.delete(0, END)
     nameentry.delete(0, END)
     fnameentry.delete(0, END)

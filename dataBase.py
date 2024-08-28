@@ -36,9 +36,12 @@ def wihdrawmoney(id,money):
     if len(res)==0:
         return 0
     prebal = res[0][0]
-    money = prebal - money
-    sql = f"Update cus Set balance = {money} Where cID = {id};"
-    c.executescript(sql)
+    if money>prebal:
+        print("Money is greater")
+    else:
+        money = prebal - money
+        sql = f"Update cus Set balance = {money} Where cID = {id};"
+        c.executescript(sql)
     conn.commit()
     return res
     conn.close()
